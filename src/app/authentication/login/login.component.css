@@ -1,0 +1,530 @@
+/* login.component.css */
+
+/* === ANIMACIONES === */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-10px) translateX(-10px); }
+  75% { transform: translateY(-30px) translateX(5px); }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* === FONDO === */
+.login-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #10b981 100%);
+  z-index: 0;
+  overflow: hidden;
+}
+
+.animated-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  animation: float 20s infinite ease-in-out;
+}
+
+.circle-1 {
+  width: 400px;
+  height: 400px;
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.circle-2 {
+  width: 300px;
+  height: 300px;
+  bottom: -50px;
+  right: -50px;
+  animation-delay: 5s;
+}
+
+.circle-3 {
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: 10s;
+}
+
+/* === CONTENEDOR PRINCIPAL === */
+.login-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.login-card {
+  display: flex;
+  width: 100%;
+  max-width: 1100px;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* === PANEL LATERAL === */
+.login-sidebar {
+  display: none;
+  width: 45%;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 50%, #0369a1 100%);
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+}
+
+.brand-section {
+  text-align: center;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.brand-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.brand-icon svg {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+
+.brand-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+.features-list {
+  margin: 2rem 0;
+  animation: slideInLeft 1s ease-out;
+  animation-delay: 0.2s;
+  animation-fill-mode: both;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.feature-icon svg {
+  width: 20px;
+  height: 20px;
+  color: white;
+}
+
+.feature-item span {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.illustration {
+  opacity: 0.3;
+  margin-top: 2rem;
+  animation: float 15s infinite ease-in-out;
+}
+
+/* === PANEL FORMULARIO === */
+.login-form-panel {
+  width: 100%;
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-content {
+  width: 100%;
+  max-width: 450px;
+}
+
+.form-header {
+  margin-bottom: 2.5rem;
+  text-align: center;
+  animation: fadeIn 0.8s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+}
+
+.form-title {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+}
+
+.form-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.login-form {
+  animation: fadeIn 1s ease-out;
+  animation-delay: 0.5s;
+  animation-fill-mode: both;
+}
+
+/* === CAMPOS DEL FORMULARIO === */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.form-label svg {
+  width: 18px;
+  height: 18px;
+  color: #0ea5e9;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.3s ease;
+}
+
+.password-toggle:hover {
+  color: #0ea5e9;
+}
+
+.password-toggle svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* === OPCIONES DEL FORMULARIO === */
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #0ea5e9;
+}
+
+.forgot-password {
+  font-size: 0.875rem;
+  color: #0ea5e9;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* === BOTÓN SUBMIT === */
+.submit-button {
+  width: 100%;
+  padding: 1.1rem;
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+}
+
+.submit-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.button-content {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button-content svg {
+  width: 20px;
+  height: 20px;
+}
+
+.button-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+.spinner-circle {
+  stroke-dasharray: 60;
+  stroke-dashoffset: 40;
+}
+
+/* === DIVIDER === */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.divider span {
+  padding: 0 1rem;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* === ENLACE DE REGISTRO === */
+.register-link {
+  text-align: center;
+}
+
+.register-link p {
+  color: #64748b;
+  font-size: 0.9rem;
+}
+
+.link-register {
+  color: #0ea5e9;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.link-register:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* === RESPONSIVE === */
+@media (min-width: 768px) {
+  .login-sidebar {
+    display: flex;
+  }
+
+  .login-form-panel {
+    width: 55%;
+  }
+}
+
+@media (max-width: 767px) {
+  .login-container {
+    padding: 1rem;
+  }
+
+  .login-card {
+    border-radius: 16px;
+  }
+
+  .login-form-panel {
+    padding: 2rem 1.5rem;
+  }
+
+  .form-title {
+    font-size: 1.75rem;
+  }
+
+  .form-subtitle {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-title {
+    font-size: 1.5rem;
+  }
+
+  .form-input {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .submit-button {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+}

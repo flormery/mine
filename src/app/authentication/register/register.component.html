@@ -1,0 +1,258 @@
+<!-- register.component.html -->
+
+<!-- Fondo con efectos modernos -->
+<div class="register-background">
+  <div class="animated-bg">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+  </div>
+</div>
+
+<!-- Contenedor principal -->
+<div class="register-container">
+  <div class="register-card">
+
+    <!-- Panel lateral izquierdo -->
+    <div class="register-sidebar">
+      <div class="sidebar-content">
+
+        <!-- Logo / Icono principal -->
+        <div class="brand-section">
+          <div class="brand-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+          </div>
+          <h1 class="brand-title">NoticiasHoy</h1>
+          <p class="brand-subtitle">Únete a nuestra comunidad</p>
+        </div>
+
+        <!-- Características -->
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <span>Acceso completo a la plataforma</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <span>Contenido exclusivo y personalizado</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <span>Seguridad garantizada</span>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
+              </svg>
+            </div>
+            <span>Soporte 24/7</span>
+          </div>
+        </div>
+
+        <!-- Ilustración decorativa -->
+        <div class="illustration">
+          <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+                <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.1" />
+              </linearGradient>
+            </defs>
+            <path fill="url(#gradient1)" d="M44.7,-76.4C58.8,-69.2,71.8,-59.1,79.6,-45.8C87.4,-32.6,90,-16.3,88.5,-0.9C87,14.6,81.4,29.2,72.8,41.2C64.2,53.2,52.6,62.6,39.3,69.8C26,77,11,81.9,-4.7,89.3C-20.4,96.7,-40.8,106.5,-56.4,101.1C-72,95.7,-82.8,75,-88.7,55.1C-94.6,35.2,-95.6,16.6,-92.7,0.3C-89.8,-16,-83,-32,-73.8,-45.2C-64.6,-58.4,-52.9,-68.8,-39.4,-76.3C-25.9,-83.8,-11.2,-88.4,2.4,-92.2C16,-96,44.7,-76.4,44.7,-76.4Z" transform="translate(100 100)" />
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel derecho - Formulario -->
+    <div class="register-form-panel">
+      <div class="form-content">
+
+        <!-- Encabezado -->
+        <div class="form-header">
+          <h2 class="form-title">Crear Cuenta</h2>
+          <p class="form-subtitle">Completa la información para comenzar</p>
+        </div>
+
+        <!-- Formulario -->
+        <form class="register-form" (ngSubmit)="register()" #registerForm="ngForm">
+
+          <!-- Campo Email -->
+          <div class="form-group">
+            <label for="email" class="form-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              Correo electrónico
+            </label>
+            <div class="input-wrapper">
+              <input
+                id="email"
+                name="email"
+                [(ngModel)]="email"
+                type="email"
+                placeholder="tu@email.com"
+                class="form-input"
+                required
+                email
+                autocomplete="email"
+              />
+            </div>
+          </div>
+
+          <!-- Campo Contraseña -->
+          <div class="form-group">
+            <label for="password" class="form-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Contraseña
+            </label>
+            <div class="input-wrapper password-wrapper">
+              <input
+                id="password"
+                name="password"
+                [(ngModel)]="password"
+                [type]="showPassword ? 'text' : 'password'"
+                placeholder="••••••••"
+                class="form-input"
+                required
+                minlength="8"
+                autocomplete="new-password"
+                (input)="checkPasswordStrength()"
+              />
+              <button
+                type="button"
+                (click)="togglePasswordVisibility()"
+                class="password-toggle"
+                [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+              >
+                <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
+                </svg>
+              </button>
+            </div>
+
+            <!-- Indicador de fortaleza -->
+            <div class="password-strength" *ngIf="password">
+              <div class="strength-bars">
+                <div class="strength-bar">
+                  <div class="strength-fill" [ngClass]="passwordStrength"></div>
+                </div>
+                <div class="strength-bar">
+                  <div class="strength-fill" [ngClass]="passwordStrength" [style.opacity]="passwordStrengthLevel >= 2 ? '1' : '0.3'"></div>
+                </div>
+                <div class="strength-bar">
+                  <div class="strength-fill" [ngClass]="passwordStrength" [style.opacity]="passwordStrengthLevel >= 3 ? '1' : '0.3'"></div>
+                </div>
+                <div class="strength-bar">
+                  <div class="strength-fill" [ngClass]="passwordStrength" [style.opacity]="passwordStrengthLevel >= 4 ? '1' : '0.3'"></div>
+                </div>
+              </div>
+              <p class="strength-text">Mínimo 8 caracteres, incluye letras y números</p>
+            </div>
+          </div>
+
+          <!-- Confirmar Contraseña -->
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+              Confirmar contraseña
+            </label>
+            <div class="input-wrapper">
+              <input
+                id="confirmPassword"
+                name="confirmPassword"
+                [(ngModel)]="confirmPassword"
+                type="password"
+                placeholder="••••••••"
+                class="form-input"
+                required
+                autocomplete="new-password"
+              />
+            </div>
+          </div>
+
+          <!-- Términos y condiciones -->
+          <div class="checkbox-wrapper">
+            <input
+              type="checkbox"
+              id="terms"
+              name="terms"
+              [(ngModel)]="acceptTerms"
+              required
+              class="checkbox-input"
+            />
+            <label for="terms" class="checkbox-text">
+              Acepto los
+              <a href="#" (click)="$event.preventDefault()">términos y condiciones</a>
+              y la
+              <a href="#" (click)="$event.preventDefault()">política de privacidad</a>
+            </label>
+          </div>
+
+          <!-- Botón Submit -->
+          <button
+            type="submit"
+            class="submit-button"
+            [disabled]="!registerForm.valid || isLoading"
+          >
+            <span *ngIf="!isLoading" class="button-content">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+              </svg>
+              Crear Mi Cuenta
+            </span>
+            <span *ngIf="isLoading" class="button-loading">
+              <svg class="spinner" viewBox="0 0 24 24">
+                <circle class="spinner-circle" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+              </svg>
+              Creando cuenta...
+            </span>
+          </button>
+
+          <!-- Divider -->
+          <div class="divider">
+            <span>o</span>
+          </div>
+
+          <!-- Link de Login -->
+          <div class="login-link">
+            <p>¿Ya tienes una cuenta?
+              <a routerLink="/login">Inicia sesión aquí</a>
+            </p>
+          </div>
+
+          <!-- Mensaje de seguridad -->
+          <p class="security-message">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width: 12px; height: 12px; display: inline;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Tus datos están protegidos y seguros
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
