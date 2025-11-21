@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { supabase } from '../supabaseClient';
 import { Subscription } from 'rxjs';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 interface Noticia {
   id: number;
@@ -55,6 +56,44 @@ interface Noticia {
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
+    }
+
+    /* Estilos para SweetAlert2 */
+    :host ::ng-deep .animated-popup {
+      animation: slideInDown 0.3s ease-out !important;
+      border-radius: 20px !important;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    :host ::ng-deep .popup-title {
+      color: #0ea5e9 !important;
+      font-weight: 700 !important;
+      font-size: 1.5rem !important;
+    }
+
+    :host ::ng-deep .popup-content {
+      padding: 1rem !important;
+    }
+
+    :host ::ng-deep .swal2-icon.swal2-info {
+      border-color: #0ea5e9 !important;
+      color: #0ea5e9 !important;
+    }
+
+    :host ::ng-deep .swal2-icon.swal2-success {
+      border-color: #10b981 !important;
+      color: #10b981 !important;
+    }
+
+    @keyframes slideInDown {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
     }
 
     .header {
@@ -131,6 +170,33 @@ interface Noticia {
     }
 
     .login-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .plans-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .plans-btn:hover {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5);
+    }
+
+    .plans-btn svg {
       width: 18px;
       height: 18px;
     }
@@ -1050,7 +1116,15 @@ interface Noticia {
             <div class="date">{{ today | date:'fullDate' }}</div>
             <div class="time">{{ today | date:'mediumTime' }}</div>
 
-            <!-- Botón de Login (cuando NO hay sesión) -->
+            <!-- Botón de Planes -->
+            <button class="plans-btn" (click)="irAPlanes()">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+              </svg>
+              Planes
+            </button>
+
+            <!-- Botón de Login -->
             <button class="login-btn" (click)="irALogin()" *ngIf="!usuarioActual">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -1058,7 +1132,7 @@ interface Noticia {
               Iniciar Sesión
             </button>
 
-            <!-- Menú de Usuario (cuando HAY sesión) -->
+            <!-- Menú de Usuario -->
             <div class="user-menu-container" *ngIf="usuarioActual">
               <button class="user-btn" [class.open]="mostrarMenuUsuario" (click)="toggleMenuUsuario()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1082,7 +1156,7 @@ interface Noticia {
           </div>
         </div>
 
-        <!-- Hero con navegación y búsqueda -->
+        <!-- Hero -->
         <div class="hero">
           <div class="hero-inner">
             <nav class="nav">
@@ -1305,7 +1379,6 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
   mostrarDropdownDiarios: boolean = false;
   dropdownPosition = { top: '0px', left: '0px' };
 
-  // Variables para autenticación
   usuarioActual: any = null;
   nombreUsuario: string = '';
   mostrarMenuUsuario: boolean = false;
@@ -1355,8 +1428,6 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
                           'Usuario';
 
       console.log('✅ Usuario autenticado:', this.nombreUsuario);
-      console.log('📧 Email:', session.user.email);
-      console.log('👤 Metadata:', session.user.user_metadata);
     } else {
       console.log('❌ No hay sesión activa');
     }
@@ -1380,8 +1451,51 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     });
   }
 
+  // Método para verificar autenticación
+  private verificarAutenticacion(): boolean {
+    if (!this.usuarioActual) {
+      Swal.fire({
+        title: '¡Acceso Restringido!',
+        html: `
+          <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+            <p style="font-size: 1.1rem; color: #4b5563; margin-bottom: 1rem;">
+              Esta función está disponible solo para usuarios registrados
+            </p>
+            <p style="font-size: 0.9rem; color: #6b7280;">
+              Inicia sesión para acceder a filtros avanzados y descarga de noticias
+            </p>
+          </div>
+        `,
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#0ea5e9',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: ' Iniciar Sesión',
+        cancelButtonText: 'Cancelar',
+        background: '#fff',
+        backdrop: 'rgba(0,0,0,0.4)',
+        customClass: {
+          popup: 'animated-popup',
+          title: 'popup-title',
+          htmlContainer: 'popup-content'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.irALogin();
+        }
+      });
+      return false;
+    }
+    return true;
+  }
+
   irALogin() {
     this.router.navigate(['/login']);
+  }
+
+  irAPlanes() {
+    this.router.navigate(['/payment/plans']);
   }
 
   toggleMenuUsuario() {
@@ -1442,22 +1556,27 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
   }
 
   filtrarNoticias() {
+    // El buscador funciona sin autenticación
     this.noticiasFiltradas = this.noticias.filter(noticia =>
       noticia.titulo.toLowerCase().includes(this.busqueda.toLowerCase()) ||
       noticia.descripcion.toLowerCase().includes(this.busqueda.toLowerCase()) ||
-      noticia.autor.toLowerCase().includes(this.busqueda.toLowerCase())
+      noticia.autor.toLowerCase().includes(this.busqueda.toLowerCase()) ||
+      noticia.contenido.toLowerCase().includes(this.busqueda.toLowerCase())
     );
 
-    if (this.categoriaSeleccionada) {
-      this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
-        noticia.categoria === this.categoriaSeleccionada
-      );
-    }
+    // Solo aplicar filtros si hay autenticación
+    if (this.usuarioActual) {
+      if (this.categoriaSeleccionada) {
+        this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
+          noticia.categoria === this.categoriaSeleccionada
+        );
+      }
 
-    if (this.diarioSeleccionado) {
-      this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
-        noticia.diario === this.diarioSeleccionado
-      );
+      if (this.diarioSeleccionado) {
+        this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
+          noticia.diario === this.diarioSeleccionado
+        );
+      }
     }
 
     this.noticiasFiltradas = this.ordenarPorFechaDesc(this.noticiasFiltradas);
@@ -1506,6 +1625,18 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
   }
 
   seleccionarCategoria(cat: string) {
+    // Permitir "Todo" sin autenticación
+    if (cat === '') {
+      this.categoriaSeleccionada = cat;
+      this.filtrarPorCategoria();
+      return;
+    }
+
+    // Requiere autenticación para filtros específicos
+    if (!this.verificarAutenticacion()) {
+      return;
+    }
+
     this.categoriaSeleccionada = cat;
     this.filtrarPorCategoria();
   }
@@ -1517,6 +1648,11 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
   }
 
   toggleDropdownDiarios() {
+    // Requiere autenticación
+    if (!this.verificarAutenticacion()) {
+      return;
+    }
+
     this.mostrarDropdownDiarios = !this.mostrarDropdownDiarios;
 
     if (this.mostrarDropdownDiarios) {
@@ -1603,6 +1739,11 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
   }
 
   descargarNoticias() {
+    // Requiere autenticación
+    if (!this.verificarAutenticacion()) {
+      return;
+    }
+
     this.descargando = true;
     console.log('📥 Iniciando descarga de noticias...');
 
@@ -1648,6 +1789,23 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
 
       console.log(`✅ Descarga completada: ${noticiasParaDescargar.length} noticias`);
 
+      // Mostrar mensaje de éxito
+      Swal.fire({
+        title: '¡Descarga Exitosa!',
+        html: `
+          <div style="text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">📥</div>
+            <p style="font-size: 1rem; color: #10b981;">
+              Se descargaron <strong>${noticiasParaDescargar.length}</strong> noticias
+            </p>
+          </div>
+        `,
+        icon: 'success',
+        timer: 2000,
+        showConfirmButton: false,
+        background: '#fff'
+      });
+
       setTimeout(() => {
         this.descargando = false;
       }, 1000);
@@ -1655,7 +1813,13 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('❌ Error al descargar noticias:', error);
       this.descargando = false;
-      alert('Error al generar el archivo Excel. Por favor intenta nuevamente.');
+
+      Swal.fire({
+        title: 'Error',
+        text: 'Error al generar el archivo Excel. Por favor intenta nuevamente.',
+        icon: 'error',
+        confirmButtonColor: '#ef4444'
+      });
     }
   }
 }

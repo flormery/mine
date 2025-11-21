@@ -1,0 +1,185 @@
+<!-- src/app/payment/checkout/checkout.component.html -->
+
+<div class="checkout-container">
+
+  <!-- Background Effects -->
+  <div class="background-effects">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+  </div>
+
+  <div class="checkout-wrapper">
+    <div class="checkout-card">
+
+      <!-- Botón Cerrar (X) -->
+      <button class="close-btn" (click)="cerrarVentana()" title="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <div class="checkout-grid">
+
+        <!-- Plan Summary -->
+        <div class="plan-summary">
+          <div class="summary-header">
+            <svg class="summary-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+            <h2 class="summary-title">Resumen de Compra</h2>
+          </div>
+
+          <div *ngIf="selectedPlan" class="summary-content">
+            <div class="plan-info">
+              <h3 class="plan-title">{{ selectedPlan.name }}</h3>
+              <p class="plan-duration">Acceso completo por {{ selectedPlan.duration }} días</p>
+            </div>
+
+            <div class="features-section">
+              <h4 class="features-title">Incluye:</h4>
+              <ul class="features-list">
+                <li *ngFor="let feature of selectedPlan.features" class="feature-item">
+                  <svg class="check-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                  <span>{{ feature }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="total-section">
+              <span class="total-label">Total:</span>
+              <span class="total-amount">${{ selectedPlan.price }}</span>
+            </div>
+
+            <div class="security-badge">
+              <svg class="security-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+              </svg>
+              <span>Pago 100% seguro</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Form -->
+        <div class="payment-form">
+          <div class="form-header">
+            <svg class="form-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+            </svg>
+            <h2 class="form-title">Información de Pago</h2>
+          </div>
+
+          <form (ngSubmit)="processPayment()" #paymentForm="ngForm">
+
+            <!-- Método de Pago -->
+            <div class="form-group">
+              <label class="form-label">Método de Pago</label>
+              <div class="payment-methods">
+                <button type="button"
+                        (click)="formData.paymentMethod = 'card'"
+                        [class.active]="formData.paymentMethod === 'card'"
+                        class="payment-method-btn">
+                  <svg class="method-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                  </svg>
+                  <span class="method-label">Tarjeta</span>
+                </button>
+                <button type="button"
+                        (click)="formData.paymentMethod = 'paypal'"
+                        [class.active]="formData.paymentMethod === 'paypal'"
+                        class="payment-method-btn">
+                  <svg class="method-icon" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.067 8.478c.492.88.556 2.014.3 3.327-.74 3.806-3.276 5.12-6.514 5.12h-.5a.805.805 0 00-.794.68l-.04.22-.63 3.993-.028.15a.804.804 0 01-.794.68H7.72a.483.483 0 01-.477-.558L7.418 20h1.518l.95-6.02h1.385c4.678 0 7.75-2.203 8.796-6.502z"></path>
+                  </svg>
+                  <span class="method-label">PayPal</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Card Details -->
+            <div *ngIf="formData.paymentMethod === 'card'" class="card-details">
+              <div class="form-group">
+                <label class="form-label">Número de Tarjeta</label>
+                <input type="text"
+                       [(ngModel)]="formData.cardNumber"
+                       name="cardNumber"
+                       (input)="formatCardNumber($event)"
+                       maxlength="19"
+                       placeholder="1234 5678 9012 3456"
+                       required
+                       class="form-input">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Nombre en la Tarjeta</label>
+                <input type="text"
+                       [(ngModel)]="formData.cardName"
+                       name="cardName"
+                       placeholder="JUAN PÉREZ"
+                       required
+                       class="form-input">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Vencimiento</label>
+                  <input type="text"
+                         [(ngModel)]="formData.expiryDate"
+                         name="expiryDate"
+                         (input)="formatExpiryDate($event)"
+                         maxlength="5"
+                         placeholder="MM/YY"
+                         required
+                         class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">CVV</label>
+                  <input type="text"
+                         [(ngModel)]="formData.cvv"
+                         name="cvv"
+                         maxlength="4"
+                         placeholder="123"
+                         required
+                         class="form-input">
+                </div>
+              </div>
+            </div>
+
+            <!-- PayPal Notice -->
+            <div *ngIf="formData.paymentMethod === 'paypal'" class="paypal-notice">
+              <svg class="notice-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <p>Serás redirigido a PayPal para completar tu pago de forma segura.</p>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                    [disabled]="isProcessing || !paymentForm.form.valid"
+                    class="submit-btn">
+              <span class="btn-content">
+                {{ isProcessing ? 'Procesando...' : 'Pagar $' + (selectedPlan?.price || 0) }}
+                <svg *ngIf="!isProcessing" class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                </svg>
+                <svg *ngIf="isProcessing" class="btn-icon animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+              </span>
+              <div class="btn-shimmer"></div>
+            </button>
+
+            <!-- Security Info -->
+            <div class="security-info">
+              <svg class="security-info-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+              <span>Pago 100% seguro y encriptado</span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

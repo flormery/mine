@@ -1,0 +1,185 @@
+<!-- src/app/payment/plan-selection/plan-selection.component.html -->
+
+<div class="container">
+
+      <!-- Botón Cerrar (X) -->
+      <button class="close-btn" (click)="cerrarVentana()" title="Cerrar">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+  <!-- Animated Background Elements -->
+  <div class="background-effects">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <div class="content-wrapper">
+
+    <!-- Header Section -->
+    <div class="header-section">
+      <div class="badge-wrapper">
+        <span class="top-badge">
+          Planes y Precios
+        </span>
+      </div>
+      <h1 class="main-title">
+        Elige tu Plan
+      </h1>
+      <p class="subtitle">
+        Selecciona el plan que mejor se adapte a tus necesidades
+      </p>
+    </div>
+
+    <!-- Plans Grid -->
+    <div class="plans-grid">
+      <div *ngFor="let plan of plans; let i = index"
+           [class.popular-plan]="plan.popular"
+           class="plan-card"
+           [style.animation-delay]="i * 100 + 'ms'">
+
+        <!-- Gradient Border Effect -->
+        <div class="gradient-border"></div>
+
+        <!-- Card Content -->
+        <div class="card-content">
+
+          <!-- Popular Badge -->
+          <div *ngIf="plan.popular" class="popular-badge-wrapper">
+            <div class="popular-badge">
+              ⭐ POPULAR
+            </div>
+          </div>
+
+          <!-- Plan Icon -->
+          <div class="icon-wrapper">
+            <div [class.icon-popular]="plan.popular"
+                 [class.icon-normal]="!plan.popular"
+                 class="plan-icon">
+              <svg *ngIf="plan.price === 0" class="icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+              </svg>
+              <svg *ngIf="plan.price > 0" class="icon-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Plan Header -->
+          <div class="plan-header">
+            <h3 class="plan-name">
+              {{ plan.name }}
+            </h3>
+            <div class="price-wrapper">
+              <span *ngIf="plan.price === 0" class="price-text">
+                Gratis
+              </span>
+              <span *ngIf="plan.price > 0" class="price-text">
+                ${{ plan.price }}
+              </span>
+              <span *ngIf="plan.price > 0" class="price-period">
+                /mes
+              </span>
+            </div>
+            <p *ngIf="plan.price === 0" class="plan-description">
+              Perfecto para empezar
+            </p>
+            <p *ngIf="plan.price > 0" class="plan-description">
+              Acceso completo a funciones
+            </p>
+          </div>
+
+          <!-- Features List -->
+          <div class="features-section">
+            <div class="divider"></div>
+            <ul class="features-list">
+              <li *ngFor="let feature of plan.features; let j = index"
+                  class="feature-item"
+                  [style.animation-delay]="(i * 100 + j * 50) + 'ms'">
+                <div class="feature-icon">
+                  <svg class="check-icon"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24"
+                       stroke-width="3">
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+                <span class="feature-text">{{ feature }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Action Button -->
+          <button (click)="selectPlan(plan)"
+                  [disabled]="isLoading"
+                  [class.btn-popular]="plan.popular"
+                  [class.btn-normal]="!plan.popular"
+                  class="select-button">
+            <span class="button-content">
+              <span>{{ isLoading ? 'Procesando...' : (plan.price === 0 ? 'Comenzar Gratis' : 'Seleccionar Plan') }}</span>
+              <svg class="arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+              </svg>
+            </span>
+            <div class="button-shimmer"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Features Comparison Section -->
+    <div class="comparison-section">
+      <div class="comparison-card">
+        <h3 class="comparison-title">
+          ¿Por qué elegirnos?
+        </h3>
+        <div class="benefits-grid">
+          <div class="benefit-item">
+            <div class="benefit-icon benefit-icon-1">
+              <svg class="benefit-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+              </svg>
+            </div>
+            <h4 class="benefit-title">Seguro</h4>
+            <p class="benefit-description">Datos protegidos</p>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon benefit-icon-2">
+              <svg class="benefit-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h4 class="benefit-title">Rápido</h4>
+            <p class="benefit-description">Activa en segundos</p>
+          </div>
+
+          <div class="benefit-item">
+            <div class="benefit-icon benefit-icon-3">
+              <svg class="benefit-svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+              </svg>
+            </div>
+            <h4 class="benefit-title">Flexible</h4>
+            <p class="benefit-description">Cancela cuando quieras</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Info -->
+    <div class="footer-section">
+      <div class="footer-badge">
+        <svg class="footer-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+        </svg>
+        <span class="footer-text">Pago seguro y protegido</span>
+      </div>
+    </div>
+  </div>
+</div>
