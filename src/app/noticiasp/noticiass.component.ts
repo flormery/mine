@@ -1108,7 +1108,6 @@ interface Noticia {
   `],
   template: `
     <div class="min-h-screen bg-gray-50">
-      <!-- Header -->
       <header class="header">
         <div class="header-main">
           <h1 class="logo">NoticiasHoy</h1>
@@ -1116,7 +1115,6 @@ interface Noticia {
             <div class="date">{{ today | date:'fullDate' }}</div>
             <div class="time">{{ today | date:'mediumTime' }}</div>
 
-            <!-- Botón de Planes -->
             <button class="plans-btn" (click)="irAPlanes()">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -1124,7 +1122,6 @@ interface Noticia {
               Planes
             </button>
 
-            <!-- Botón de Login -->
             <button class="login-btn" (click)="irALogin()" *ngIf="!usuarioActual">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
@@ -1132,7 +1129,6 @@ interface Noticia {
               Iniciar Sesión
             </button>
 
-            <!-- Menú de Usuario -->
             <div class="user-menu-container" *ngIf="usuarioActual">
               <button class="user-btn" [class.open]="mostrarMenuUsuario" (click)="toggleMenuUsuario()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1156,7 +1152,6 @@ interface Noticia {
           </div>
         </div>
 
-        <!-- Hero -->
         <div class="hero">
           <div class="hero-inner">
             <nav class="nav">
@@ -1259,7 +1254,6 @@ interface Noticia {
         </div>
       </header>
 
-      <!-- Últimas noticias -->
       <section class="latest-section" *ngIf="noticias.length">
         <div class="section-header">
           <h2 class="section-title">🔥 Últimas Noticias</h2>
@@ -1294,7 +1288,6 @@ interface Noticia {
         </div>
       </section>
 
-      <!-- Estadísticas -->
       <div class="stats-container">
         <div class="stat-card">
           <div class="stat-number">{{ Math.min(noticiasFiltradas.length, 20) }}</div>
@@ -1318,7 +1311,6 @@ interface Noticia {
         </div>
       </div>
 
-      <!-- Grid de noticias -->
       <section class="news-section">
         <div *ngIf="noticiasFiltradas.length === 0" class="empty-state">
           <div class="empty-icon">📰</div>
@@ -1357,7 +1349,6 @@ interface Noticia {
         </div>
       </section>
 
-      <!-- Footer -->
       <footer class="footer">
         <div class="footer-content">
           <p class="footer-text">&copy; 2025 NoticiasHoy. Todos los derechos reservados.</p>
@@ -1451,19 +1442,19 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     });
   }
 
-  // Método para verificar autenticación
+  // 5. MANTENER el método verificarAutenticacion (solo para descarga)
   private verificarAutenticacion(): boolean {
     if (!this.usuarioActual) {
       Swal.fire({
-        title: '¡Acceso Restringido!',
+        title: '¡Descarga Restringida!',
         html: `
           <div style="text-align: center;">
             <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
             <p style="font-size: 1.1rem; color: #4b5563; margin-bottom: 1rem;">
-              Esta función está disponible solo para usuarios registrados
+              La descarga de noticias está disponible solo para usuarios registrados
             </p>
             <p style="font-size: 0.9rem; color: #6b7280;">
-              Inicia sesión para acceder a filtros avanzados y descarga de noticias
+              Inicia sesión para descargar las noticias en Excel
             </p>
           </div>
         `,
@@ -1471,7 +1462,7 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
         showCancelButton: true,
         confirmButtonColor: '#0ea5e9',
         cancelButtonColor: '#6b7280',
-        confirmButtonText: ' Iniciar Sesión',
+        confirmButtonText: '🚀 Iniciar Sesión',
         cancelButtonText: 'Cancelar',
         background: '#fff',
         backdrop: 'rgba(0,0,0,0.4)',
@@ -1555,6 +1546,7 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     console.log('Diarios encontrados:', this.diarios);
   }
 
+  // 3. MODIFICAR filtrarNoticias para que funcione sin login
   filtrarNoticias() {
     // El buscador funciona sin autenticación
     this.noticiasFiltradas = this.noticias.filter(noticia =>
@@ -1564,19 +1556,17 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
       noticia.contenido.toLowerCase().includes(this.busqueda.toLowerCase())
     );
 
-    // Solo aplicar filtros si hay autenticación
-    if (this.usuarioActual) {
-      if (this.categoriaSeleccionada) {
-        this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
-          noticia.categoria === this.categoriaSeleccionada
-        );
-      }
+    // LOS FILTROS AHORA FUNCIONAN SIN LOGIN
+    if (this.categoriaSeleccionada) {
+      this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
+        noticia.categoria === this.categoriaSeleccionada
+      );
+    }
 
-      if (this.diarioSeleccionado) {
-        this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
-          noticia.diario === this.diarioSeleccionado
-        );
-      }
+    if (this.diarioSeleccionado) {
+      this.noticiasFiltradas = this.noticiasFiltradas.filter(noticia =>
+        noticia.diario === this.diarioSeleccionado
+      );
     }
 
     this.noticiasFiltradas = this.ordenarPorFechaDesc(this.noticiasFiltradas);
@@ -1624,19 +1614,8 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     this.noticiasFiltradas = this.ordenarPorFechaDesc(this.noticiasFiltradas);
   }
 
+  // 1. ELIMINAR el método verificarAutenticacion() de seleccionarCategoria
   seleccionarCategoria(cat: string) {
-    // Permitir "Todo" sin autenticación
-    if (cat === '') {
-      this.categoriaSeleccionada = cat;
-      this.filtrarPorCategoria();
-      return;
-    }
-
-    // Requiere autenticación para filtros específicos
-    if (!this.verificarAutenticacion()) {
-      return;
-    }
-
     this.categoriaSeleccionada = cat;
     this.filtrarPorCategoria();
   }
@@ -1647,12 +1626,8 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     this.filtrarPorDiario();
   }
 
+  // 2. ELIMINAR el método verificarAutenticacion() de toggleDropdownDiarios
   toggleDropdownDiarios() {
-    // Requiere autenticación
-    if (!this.verificarAutenticacion()) {
-      return;
-    }
-
     this.mostrarDropdownDiarios = !this.mostrarDropdownDiarios;
 
     if (this.mostrarDropdownDiarios) {
@@ -1738,8 +1713,9 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
     return fecha || 'Sin fecha';
   }
 
+  // 4. MANTENER la verificación SOLO en descargarNoticias
   descargarNoticias() {
-    // Requiere autenticación
+    // SOLO DESCARGA REQUIERE LOGIN
     if (!this.verificarAutenticacion()) {
       return;
     }
@@ -1789,7 +1765,6 @@ export class NewsPortalComponent implements OnInit, OnDestroy {
 
       console.log(`✅ Descarga completada: ${noticiasParaDescargar.length} noticias`);
 
-      // Mostrar mensaje de éxito
       Swal.fire({
         title: '¡Descarga Exitosa!',
         html: `
